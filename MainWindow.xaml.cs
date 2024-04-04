@@ -42,10 +42,13 @@ namespace Caro_game
         Player playerTurn;
         bool[,] boardbool;
 
+        bool isMaximized = false;
+
         public MainWindow()
         {
             InitializeComponent();
             TopSpace.Loaded += TopSpace_Loaded;
+            TopSpace.SizeChanged += TopSpace_SizeChanged;
         }
 
         private void TopSpace_Loaded(object sender, RoutedEventArgs e)
@@ -60,6 +63,18 @@ namespace Caro_game
 
             RestartGame();
         }
+        private void TopSpace_SizeChanged(object sender, RoutedEventArgs e)
+        {
+            double boardSize = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth);
+            Board.Width = boardSize;
+            Board.Height = boardSize;
+            BoardBorder.Width = boardSize;
+            BoardBorder.Height = boardSize;
+
+            Board.Children.Clear();
+            RedrawBoard();
+        }
+
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             double boardSize = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth);
@@ -72,10 +87,6 @@ namespace Caro_game
             RedrawBoard();
         }
 
-        private void MainWindow_StateChanged(object sender, EventArgs e)
-        {
-            RedrawBoard();
-        }
 
         private void DrawBoard()
         {
