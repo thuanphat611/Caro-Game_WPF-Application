@@ -44,8 +44,9 @@ namespace Caro_game
 
         bool isMaximized = false;
 
-        public GamePlayWindow()
+        public GamePlayWindow(int size)
         {
+            this.size = size;
             InitializeComponent();
             TopSpace.Loaded += TopSpace_Loaded;
             TopSpace.SizeChanged += TopSpace_SizeChanged;
@@ -90,7 +91,7 @@ namespace Caro_game
         private void DrawBoard()
         {
             int borderThickness = 3;
-            int lineMargin = 5;//khoảng cách giữa các đường kẻ với border
+            int lineMargin = 0;//khoảng cách giữa các đường kẻ với border
 
             Rectangle rectangle = new Rectangle();
             double minValue = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth);
@@ -153,10 +154,10 @@ namespace Caro_game
             {
                 Line line1 = new Line();
                 line1.Stroke = System.Windows.Media.Brushes.Blue;
-                line1.X1 = cellWidth * x + 10;
-                line1.Y1 = cellWidth * y + 10;
-                line1.X2 = cellWidth * (x + 1) - 10;
-                line1.Y2 = cellWidth * (y + 1) - 10;
+                line1.X1 = cellWidth * x + 1;
+                line1.Y1 = cellWidth * y + 1;
+                line1.X2 = cellWidth * (x + 1) - 1;
+                line1.Y2 = cellWidth * (y + 1) - 1;
                 line1.HorizontalAlignment = HorizontalAlignment.Center;
                 line1.VerticalAlignment = VerticalAlignment.Center;
                 line1.StrokeThickness = 5;
@@ -164,10 +165,10 @@ namespace Caro_game
 
                 Line line2 = new Line();
                 line2.Stroke = System.Windows.Media.Brushes.Blue;
-                line2.X1 = cellWidth * (x + 1) - 10;
-                line2.Y1 = cellWidth * y + 10;
-                line2.X2 = cellWidth * x + 10;
-                line2.Y2 = cellWidth * (y + 1) - 10;
+                line2.X1 = cellWidth * (x + 1) - 1;
+                line2.Y1 = cellWidth * y + 1;
+                line2.X2 = cellWidth * x + 1;
+                line2.Y2 = cellWidth * (y + 1) - 1;
                 line2.HorizontalAlignment = HorizontalAlignment.Center;
                 line2.VerticalAlignment = VerticalAlignment.Center;
                 line2.StrokeThickness = 5;
@@ -176,7 +177,7 @@ namespace Caro_game
             else if (turn == Player.PlayerO)
             {
                 Ellipse round = new Ellipse();
-                int padding = 10;
+                int padding = 0;
                 int thichness = 5;
                 round.Width = cellWidth - padding;
                 round.Height = cellWidth - padding;

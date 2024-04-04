@@ -22,3 +22,5 @@ C:\Users\PHAT\OneDrive - VNU-HCMUS\Năm 3\Lập trình Windows\Caro-game\obj\Deb
 C:\Users\PHAT\OneDrive - VNU-HCMUS\Năm 3\Lập trình Windows\Caro-game\obj\Debug\net8.0-windows\MenuWindow.g.cs
 C:\Users\PHAT\OneDrive - VNU-HCMUS\Năm 3\Lập trình Windows\Caro-game\obj\Debug\net8.0-windows\MenuWindow.baml
 C:\Users\PHAT\OneDrive - VNU-HCMUS\Năm 3\Lập trình Windows\Caro-game\obj\Debug\net8.0-windows\App.baml
+C:\Users\PHAT\OneDrive - VNU-HCMUS\Năm 3\Lập trình Windows\Caro-game\obj\Debug\net8.0-windows\SizeInputDialog.g.cs
+C:\Users\PHAT\OneDrive - VNU-HCMUS\Năm 3\Lập trình Windows\Caro-game\obj\Debug\net8.0-windows\SizeInputDialog.baml

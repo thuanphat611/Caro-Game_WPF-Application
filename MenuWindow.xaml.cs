@@ -42,7 +42,8 @@ namespace Caro_game
 
         private void PlayBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            SizeInputDialog dialog = new SizeInputDialog(this);
+            dialog.ShowDialog();
         }
 
         private void SoundBtn_Click(object sender, RoutedEventArgs e)

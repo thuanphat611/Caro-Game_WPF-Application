@@ -10,12 +10,18 @@
     <Compile Update="MenuWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="SizeInputDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="GamePlayWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MenuWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SizeInputDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
