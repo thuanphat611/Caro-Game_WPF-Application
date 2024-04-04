@@ -300,7 +300,71 @@ namespace Caro_game
                 return true;
             }
 
+            //Kiểm tra đường chéo \
+            int n;
+            int m;
+            num = 1;
+            n = y - 1;
+            m = x - 1;
+            while (n >= 0 && m >= 0)
+            {
+                if (BoardCellMap[n, m].player == player)
+                    num++;
+                n--;
+                m--;
+            }
+            n = y + 1;
+            m = x + 1;
+            while (n < size && m < size)
+            {
+                if (BoardCellMap[n, m].player == player)
+                    num++;
+                n++;
+                m++;
+            }
+            if (num == numToWin)
+            {
+                if (player == Player.PlayerX)
+                    MessageBox.Show("Kết thúc game: X thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+                else
+                    MessageBox.Show("Kết thúc game: O thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                return true;
+            }
+
+            //Kiểm tra đường chéo /
+            num = 1;
+            n = y - 1;
+            m = x + 1;
+            while (n >= 0 && m < size)
+            {
+                if (BoardCellMap[n, m].player == player)
+                    num++;
+                n--;
+                m++;
+            }
+            n = y + 1;
+            m = x - 1;
+            while (n < size && m >= 0)
+            {
+                if (BoardCellMap[n, m].player == player)
+                    num++;
+                n++;
+                m--;
+            }
+            if (num == numToWin)
+            {
+                if (player == Player.PlayerX)
+                    MessageBox.Show("Kết thúc game: X thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+                else
+                    MessageBox.Show("Kết thúc game: O thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                return true;
+            }
+
             return false;
         }
+
+
     }
 }
