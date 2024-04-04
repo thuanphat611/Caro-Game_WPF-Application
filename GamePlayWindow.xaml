@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="TopSpace" Grid.Row="0" Margin="0,10,0,10">
-            <Border x:Name="BoardBorder" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center">
+            <Border x:Name="BoardBorder" BorderBrush="Black" BorderThickness="3" VerticalAlignment="Center">
                 <Canvas x:Name="Board" MouseDown="Board_MouseDown">
                 </Canvas>
             </Border>

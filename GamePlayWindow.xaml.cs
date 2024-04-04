@@ -87,12 +87,14 @@ namespace Caro_game
             RedrawBoard();
         }
 
-
         private void DrawBoard()
         {
+            int borderThickness = 3;
+            int lineMargin = 5;//khoảng cách giữa các đường kẻ với border
+
             Rectangle rectangle = new Rectangle();
             double minValue = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth);
-            double sizeToSet = minValue - 2;
+            double sizeToSet = minValue - borderThickness * 2;
             rectangle.Width = sizeToSet;
             rectangle.Height = sizeToSet;
             rectangle.Fill = Brushes.White;
@@ -103,9 +105,9 @@ namespace Caro_game
                 Line verticalLine = new Line();
                 verticalLine.Stroke = System.Windows.Media.Brushes.Black;
                 verticalLine.X1 = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth) / size * (i + 1);
-                verticalLine.Y1 = 0;
+                verticalLine.Y1 = 0 + lineMargin;
                 verticalLine.X2 = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth) / size * (i + 1);
-                verticalLine.Y2 = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth);
+                verticalLine.Y2 = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth) - borderThickness - lineMargin;
                 verticalLine.HorizontalAlignment = HorizontalAlignment.Center;
                 verticalLine.VerticalAlignment = VerticalAlignment.Center;
                 verticalLine.StrokeThickness = STROKE_THICKNESS;
@@ -115,9 +117,9 @@ namespace Caro_game
             {
                 Line horizontalLine = new Line();
                 horizontalLine.Stroke = System.Windows.Media.Brushes.Black;
-                horizontalLine.X1 = 0;
+                horizontalLine.X1 = 0 + lineMargin;
                 horizontalLine.Y1 = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth) / size * (i + 1);
-                horizontalLine.X2 = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth);
+                horizontalLine.X2 = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth) - borderThickness - lineMargin;
                 horizontalLine.Y2 = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth) / size * (i + 1);
                 horizontalLine.HorizontalAlignment = HorizontalAlignment.Center;
                 horizontalLine.VerticalAlignment = VerticalAlignment.Center;
