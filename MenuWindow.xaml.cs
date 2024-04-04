@@ -19,9 +19,15 @@ namespace Caro_game
     /// </summary>
     public partial class MenuWindow : Window
     {
+        public static class GlobalVariables
+        {
+            public static bool SoundOn { get; set; }
+        }
+
         public MenuWindow()
         {
             InitializeComponent();
+            GlobalVariables.SoundOn = true;
         }
 
         private void ExitBtn_Click(object sender, RoutedEventArgs e)
@@ -37,6 +43,19 @@ namespace Caro_game
         private void PlayBtn_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void SoundBtn_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalVariables.SoundOn = !GlobalVariables.SoundOn;
+            if (GlobalVariables.SoundOn)
+            {
+                SoundBtn.Content = "Sound: On";
+            }
+            else
+            {
+                SoundBtn.Content = "Sound: Off";
+            }
         }
     }
 }
