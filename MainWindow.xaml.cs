@@ -14,7 +14,7 @@ namespace Caro_game
 {
     public enum Player
     {
-        PlayerX, PlayerO
+        PlayerX, PlayerO, None
     }
 
     public class BoardCell
@@ -32,13 +32,13 @@ namespace Caro_game
 
     public partial class MainWindow : Window
     {
-        private const int STROKE_THICKNESS = 1;
-        private int size = 3;
+        const int STROKE_THICKNESS = 1;
+        int size = 5;
+        int numToWin = 3;
 
-        ObservableCollection<BoardCell> XCell = new ObservableCollection<BoardCell>();
-        ObservableCollection<BoardCell> OCell = new ObservableCollection<BoardCell>();
-        private int cellLeft;
-        private double cellWidth;
+        BoardCell[,] BoardCellMap = null;
+        int cellLeft;
+        double cellWidth;
         Player playerTurn;
         bool[,] boardbool;
 
@@ -69,6 +69,11 @@ namespace Caro_game
             BoardBorder.Height = boardSize;
 
             Board.Children.Clear();
+            RedrawBoard();
+        }
+
+        private void MainWindow_StateChanged(object sender, EventArgs e)
+        {
             RedrawBoard();
         }
 
@@ -116,15 +121,23 @@ namespace Caro_game
             DrawBoard();
 
             //Vẽ lại các điểm x, o
-
+            if (BoardCellMap == null)
+            {
+                return;
+            }
+            cellWidth = Board.ActualHeight / size;
+            for (int i = 0; i < size; i++)
+                for (int j = 0; j < size; j++)
+                {
+                    BoardCell point = BoardCellMap[i, j];
+                    DrawPoint(point.x, point.y, point.player);
+                }
         }
 
         private void DrawPoint(int x, int y, Player turn) // 0: X, 1: O
         {
             if (turn == Player.PlayerX)//X
             {
-                XCell.Add(new BoardCell(x, y, Player.PlayerX));
-
                 Line line1 = new Line();
                 line1.Stroke = System.Windows.Media.Brushes.Blue;
                 line1.X1 = cellWidth * x + 10;
@@ -147,10 +160,8 @@ namespace Caro_game
                 line2.StrokeThickness = 5;
                 Board.Children.Add(line2);
             }
-            else//O
+            else if (turn == Player.PlayerO)
             {
-                OCell.Add(new BoardCell(x, y, Player.PlayerO));
-
                 Ellipse round = new Ellipse();
                 int padding = 10;
                 int thichness = 5;
@@ -177,17 +188,19 @@ namespace Caro_game
 
         private void RestartGame()
         {
-            XCell.Clear();
-            OCell.Clear();
             cellLeft = size * size;
             playerTurn = Player.PlayerX;
             cellWidth =  Board.ActualHeight / size;
             boardbool = new bool[size, size];
+            BoardCellMap = new BoardCell[size, size];
 
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
+                {
                     boardbool[i, j] = false;
+                    BoardCellMap[i, j] = new BoardCell(j, i, Player.None);
+                }
             }
 
             Board.Children.Clear();
@@ -203,22 +216,32 @@ namespace Caro_game
             int x = ((int)mouseX) % ((int)cellWidth) != 0 ? ((int)mouseX) / ((int)cellWidth) : ((int)mouseX) / ((int)cellWidth) + 1;
             int y = ((int)mouseY) % ((int)cellWidth) != 0 ? ((int)mouseY) / ((int)cellWidth) : ((int)mouseY) / ((int)cellWidth) + 1;
 
-            if (boardbool[x, y])
+            if (boardbool[y, x])
             {
                 return;
             }
             else
             {
-                boardbool[x, y] = true;
+                boardbool[y, x] = true;
                 cellLeft--;
             }
 
+            BoardCellMap[y, x].player = playerTurn;
             DrawPoint(x, y, playerTurn);
 
-            if (EndGameCheck(playerTurn))
+            if (EndGameCheck(x, y, playerTurn))
             {
-                //RestartGame();
+                RestartGame();
+                return;
             }
+
+            if (cellLeft == 0)
+            {
+                MessageBox.Show("Kết quả Hòa", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+                RestartGame();
+                return;
+            }
+
             if (playerTurn == Player.PlayerX)
             {
                 playerTurn = Player.PlayerO;
@@ -229,8 +252,54 @@ namespace Caro_game
             }
         }
 
-        private bool EndGameCheck(Player playerTurn)
+        private bool EndGameCheck(int x, int y, Player player)
         {
+            int num;
+
+            //check hàng ngang
+            num = 1;
+            for (int i  = x - 1; i >= 0 ; i--)
+            {
+                if (BoardCellMap[y, i].player == player)
+                    num++;
+            }
+            for (int i = x + 1; i < size; i++)
+            {
+                if (BoardCellMap[y, i].player == player)
+                    num++;
+            }
+            if (num == numToWin)
+            {
+                if (player == Player.PlayerX)
+                    MessageBox.Show("Kết thúc game: X thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+                else
+                    MessageBox.Show("Kết thúc game: O thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                return true;
+            }
+
+            //check hàng dọc
+            num = 1;
+            for (int i = y - 1; i >= 0; i--)
+            {
+                if (BoardCellMap[i, x].player == player)
+                    num++;
+            }
+            for (int i = y + 1; i < size; i++)
+            {
+                if (BoardCellMap[i, x].player == player)
+                    num++;
+            }
+            if (num == numToWin)
+            {
+                if (player == Player.PlayerX)
+                    MessageBox.Show("Kết thúc game: X thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+                else
+                    MessageBox.Show("Kết thúc game: O thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                return true;
+            }
+
             return false;
         }
     }
