@@ -16,9 +16,9 @@
                     <Line Stroke="Blue" StrokeThickness="5" X1="0" Y1="45" X2="30" Y2="15"/>
                 </Canvas>
             </WrapPanel>
-            <Button x:Name="PlayBtn" Style="{StaticResource PlayButton}" Margin="0,30,0,0">Play game</Button>
-            <Button x:Name="LoadBtn"  Style="{StaticResource LoadGameButton}" Margin="0,10,0,0">Load saved game</Button>
-            <Button Name="ExitBtn" Style="{StaticResource ExitButton}" Margin="0,10,0,0">Exit</Button>
+            <Button x:Name="PlayBtn" Style="{StaticResource PlayButton}" Margin="0,30,0,0" Click="PlayBtn_Click">Play game</Button>
+            <Button x:Name="LoadBtn"  Style="{StaticResource LoadGameButton}" Margin="0,10,0,0" Click="LoadBtn_Click">Load saved game</Button>
+            <Button Name="ExitBtn" Style="{StaticResource ExitButton}" Margin="0,10,0,0" Click="ExitBtn_Click">Exit</Button>
         </StackPanel>
     </Grid>
 </Window>

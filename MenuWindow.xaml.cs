@@ -23,5 +23,20 @@ namespace Caro_game
         {
             InitializeComponent();
         }
+
+        private void ExitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void LoadBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PlayBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
