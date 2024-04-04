@@ -12,16 +12,21 @@ using System.Windows.Shapes;
 
 namespace Caro_game
 {
+    public enum Player
+    {
+        PlayerX, PlayerO
+    }
+
     public class BoardCell
     {
         public int x;
         public int y;
-        string value;
-        public BoardCell(int x, int y, string value)
+        public Player player;
+        public BoardCell(int x, int y, Player type)
         {
             this.x = x;
             this.y = y;
-            this.value = value;
+            this.player = type;
         }
     }
 
@@ -34,7 +39,7 @@ namespace Caro_game
         ObservableCollection<BoardCell> OCell = new ObservableCollection<BoardCell>();
         private int cellLeft;
         private double cellWidth;
-        int playerTurn;
+        Player playerTurn;
         bool[,] boardbool;
 
         public MainWindow()
@@ -114,11 +119,11 @@ namespace Caro_game
 
         }
 
-        private void DrawPoint(int x, int y, int type) // 0: X, 1: O
+        private void DrawPoint(int x, int y, Player turn) // 0: X, 1: O
         {
-            if (type == 0)//X
+            if (turn == Player.PlayerX)//X
             {
-                XCell.Add(new BoardCell(x, y, "x"));
+                XCell.Add(new BoardCell(x, y, Player.PlayerX));
 
                 Line line1 = new Line();
                 line1.Stroke = System.Windows.Media.Brushes.Blue;
@@ -141,20 +146,10 @@ namespace Caro_game
                 line2.VerticalAlignment = VerticalAlignment.Center;
                 line2.StrokeThickness = 5;
                 Board.Children.Add(line2);
-
-                if (EndGameCheck(playerTurn))
-                {
-                    MessageBox.Show("Người chơi X thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
-                    RestartGame();
-                }
-                else
-                {
-                    playerTurn = 1;
-                }
             }
             else//O
             {
-                OCell.Add(new BoardCell(x, y, "o"));
+                OCell.Add(new BoardCell(x, y, Player.PlayerO));
 
                 Ellipse round = new Ellipse();
                 int padding = 10;
@@ -177,16 +172,6 @@ namespace Caro_game
                 Canvas.SetLeft(round2, (padding / 2 + thichness) * (x * 2 + 1) + (x * (cellWidth - padding - thichness * 2)));
                 Canvas.SetTop(round2, (padding / 2 + thichness) * (y * 2 + 1) + (y * (cellWidth - padding - thichness * 2)));
                 Board.Children.Add(round2);
-
-                if (EndGameCheck(playerTurn))
-                {
-                    MessageBox.Show("Người chơi O thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
-                    RestartGame();
-                }
-                else
-                {
-                    playerTurn = 0;
-                }
             }
         }
 
@@ -195,7 +180,7 @@ namespace Caro_game
             XCell.Clear();
             OCell.Clear();
             cellLeft = size * size;
-            playerTurn = 0;
+            playerTurn = Player.PlayerX;
             cellWidth =  Board.ActualHeight / size;
             boardbool = new bool[size, size];
 
@@ -229,9 +214,22 @@ namespace Caro_game
             }
 
             DrawPoint(x, y, playerTurn);
+
+            if (EndGameCheck(playerTurn))
+            {
+                //RestartGame();
+            }
+            if (playerTurn == Player.PlayerX)
+            {
+                playerTurn = Player.PlayerO;
+            }
+            else
+            {
+                playerTurn = Player.PlayerX;
+            }
         }
 
-        private bool EndGameCheck(int playerTurn)
+        private bool EndGameCheck(Player playerTurn)
         {
             return false;
         }
