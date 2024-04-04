@@ -30,7 +30,7 @@ namespace Caro_game
         }
     }
 
-    public partial class MainWindow : Window
+    public partial class GamePlayWindow : Window
     {
         const int STROKE_THICKNESS = 1;
         int size = 5;
@@ -44,7 +44,7 @@ namespace Caro_game
 
         bool isMaximized = false;
 
-        public MainWindow()
+        public GamePlayWindow()
         {
             InitializeComponent();
             TopSpace.Loaded += TopSpace_Loaded;
@@ -273,11 +273,15 @@ namespace Caro_game
             {
                 if (BoardCellMap[y, i].player == player)
                     num++;
+                else
+                    break;
             }
             for (int i = x + 1; i < size; i++)
             {
                 if (BoardCellMap[y, i].player == player)
                     num++;
+                else
+                    break;
             }
             if (num == numToWin)
             {
@@ -295,11 +299,15 @@ namespace Caro_game
             {
                 if (BoardCellMap[i, x].player == player)
                     num++;
+                else
+                    break;
             }
             for (int i = y + 1; i < size; i++)
             {
                 if (BoardCellMap[i, x].player == player)
                     num++;
+                else
+                    break;
             }
             if (num == numToWin)
             {
@@ -321,6 +329,8 @@ namespace Caro_game
             {
                 if (BoardCellMap[n, m].player == player)
                     num++;
+                else
+                    break;
                 n--;
                 m--;
             }
@@ -330,6 +340,8 @@ namespace Caro_game
             {
                 if (BoardCellMap[n, m].player == player)
                     num++;
+                else
+                    break;
                 n++;
                 m++;
             }
@@ -351,6 +363,8 @@ namespace Caro_game
             {
                 if (BoardCellMap[n, m].player == player)
                     num++;
+                else
+                    break;
                 n--;
                 m++;
             }
@@ -360,6 +374,9 @@ namespace Caro_game
             {
                 if (BoardCellMap[n, m].player == player)
                     num++;
+                else
+                    break;
+                    break;
                 n++;
                 m--;
             }
