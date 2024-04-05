@@ -43,7 +43,7 @@ namespace Caro_game
             }
             if (regex.IsMatch(input))
             {
-                GamePlayWindow game = new GamePlayWindow(int.Parse(input));
+                GamePlayWindow game = new GamePlayWindow(/*int.Parse(input)*/);
                 game.Show();
                 this.Close();
                 menu.Close();

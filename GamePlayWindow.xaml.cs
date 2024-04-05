@@ -33,8 +33,9 @@ namespace Caro_game
     public partial class GamePlayWindow : Window
     {
         const int STROKE_THICKNESS = 1;
-        int size = 5;
+        int size = 12;
         int numToWin = 3;
+        int boardBorderThickness = 3;
 
         BoardCell[,] BoardCellMap = null;
         int cellLeft;
@@ -44,9 +45,9 @@ namespace Caro_game
 
         bool isMaximized = false;
 
-        public GamePlayWindow(int size)
+        public GamePlayWindow(/*int size*/)
         {
-            this.size = size;
+            /*this.size = size;*/
             InitializeComponent();
             TopSpace.Loaded += TopSpace_Loaded;
             TopSpace.SizeChanged += TopSpace_SizeChanged;
@@ -57,8 +58,8 @@ namespace Caro_game
             Board.Width = 10;
             Board.Height = 10;
             double boardSize = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth);
-            Board.Width = boardSize;
-            Board.Height = boardSize;
+            Board.Width = boardSize - boardBorderThickness * 2;
+            Board.Height = boardSize - boardBorderThickness * 2;
             BoardBorder.Width = boardSize;
             BoardBorder.Height = boardSize;
 
@@ -67,8 +68,8 @@ namespace Caro_game
         private void TopSpace_SizeChanged(object sender, RoutedEventArgs e)
         {
             double boardSize = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth);
-            Board.Width = boardSize;
-            Board.Height = boardSize;
+            Board.Width = boardSize - boardBorderThickness * 2;
+            Board.Height = boardSize - boardBorderThickness * 2;
             BoardBorder.Width = boardSize;
             BoardBorder.Height = boardSize;
 
@@ -79,8 +80,8 @@ namespace Caro_game
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             double boardSize = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth);
-            Board.Width = boardSize;
-            Board.Height = boardSize;
+            Board.Width = boardSize - boardBorderThickness * 2;
+            Board.Height = boardSize - boardBorderThickness * 2;
             BoardBorder.Width = boardSize;
             BoardBorder.Height = boardSize;
 
@@ -90,12 +91,11 @@ namespace Caro_game
 
         private void DrawBoard()
         {
-            int borderThickness = 3;
             int lineMargin = 0;//khoảng cách giữa các đường kẻ với border
 
             Rectangle rectangle = new Rectangle();
             double minValue = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth);
-            double sizeToSet = minValue - borderThickness * 2;
+            double sizeToSet = minValue - boardBorderThickness * 2;
             rectangle.Width = sizeToSet;
             rectangle.Height = sizeToSet;
             rectangle.Fill = Brushes.White;
@@ -105,10 +105,10 @@ namespace Caro_game
             {
                 Line verticalLine = new Line();
                 verticalLine.Stroke = System.Windows.Media.Brushes.Black;
-                verticalLine.X1 = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth) / size * (i + 1);
+                verticalLine.X1 = sizeToSet / size * (i + 1);
                 verticalLine.Y1 = 0 + lineMargin;
-                verticalLine.X2 = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth) / size * (i + 1);
-                verticalLine.Y2 = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth) - borderThickness - lineMargin;
+                verticalLine.X2 = sizeToSet / size * (i + 1);
+                verticalLine.Y2 = sizeToSet - lineMargin;
                 verticalLine.HorizontalAlignment = HorizontalAlignment.Center;
                 verticalLine.VerticalAlignment = VerticalAlignment.Center;
                 verticalLine.StrokeThickness = STROKE_THICKNESS;
@@ -119,9 +119,9 @@ namespace Caro_game
                 Line horizontalLine = new Line();
                 horizontalLine.Stroke = System.Windows.Media.Brushes.Black;
                 horizontalLine.X1 = 0 + lineMargin;
-                horizontalLine.Y1 = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth) / size * (i + 1);
-                horizontalLine.X2 = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth) - borderThickness - lineMargin;
-                horizontalLine.Y2 = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth) / size * (i + 1);
+                horizontalLine.Y1 = sizeToSet / size * (i + 1);
+                horizontalLine.X2 = sizeToSet - boardBorderThickness - lineMargin;
+                horizontalLine.Y2 = sizeToSet / size * (i + 1);
                 horizontalLine.HorizontalAlignment = HorizontalAlignment.Center;
                 horizontalLine.VerticalAlignment = VerticalAlignment.Center;
                 horizontalLine.StrokeThickness = STROKE_THICKNESS;
