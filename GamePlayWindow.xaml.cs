@@ -17,6 +17,11 @@ namespace Caro_game
         PlayerX, PlayerO, None
     }
 
+    public enum ControlMode
+    {
+        Mouse, Keyboard
+    }
+
     public class BoardCell
     {
         public int x;
@@ -43,7 +48,12 @@ namespace Caro_game
         Player playerTurn;
         bool[,] boardbool;
 
-        bool isMaximized = false;
+        Shape seletor;
+        int selectorX;
+        int selectorY;
+        SolidColorBrush selectorColor = Brushes.LightGray;
+
+        ControlMode control = ControlMode.Mouse;
 
         public GamePlayWindow(/*int size*/)
         {
@@ -63,8 +73,10 @@ namespace Caro_game
             BoardBorder.Width = boardSize;
             BoardBorder.Height = boardSize;
 
+            cellWidth = Board.ActualHeight / size;
             RestartGame();
         }
+
         private void TopSpace_SizeChanged(object sender, RoutedEventArgs e)
         {
             double boardSize = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth);
@@ -120,18 +132,35 @@ namespace Caro_game
                 horizontalLine.Stroke = System.Windows.Media.Brushes.Black;
                 horizontalLine.X1 = 0 + lineMargin;
                 horizontalLine.Y1 = sizeToSet / size * (i + 1);
-                horizontalLine.X2 = sizeToSet - boardBorderThickness - lineMargin;
+                horizontalLine.X2 = sizeToSet - lineMargin;
                 horizontalLine.Y2 = sizeToSet / size * (i + 1);
                 horizontalLine.HorizontalAlignment = HorizontalAlignment.Center;
                 horizontalLine.VerticalAlignment = VerticalAlignment.Center;
                 horizontalLine.StrokeThickness = STROKE_THICKNESS;
                 Board.Children.Add(horizontalLine);
             }
+
+            Rectangle selectorSquare = new Rectangle();
+            selectorSquare.Width = cellWidth - STROKE_THICKNESS > 0 ? cellWidth - STROKE_THICKNESS : 0;
+            selectorSquare.Height = cellWidth - STROKE_THICKNESS > 0 ? cellWidth - STROKE_THICKNESS : 0;
+            selectorSquare.SetValue(Canvas.LeftProperty, sizeToSet / size * selectorX);
+            selectorSquare.SetValue(Canvas.TopProperty, sizeToSet / size * selectorY);
+            seletor = selectorSquare;
+            Board.Children.Add(selectorSquare);
+            if (control == ControlMode.Keyboard)
+            {
+                selectorSquare.Fill = selectorColor;
+            }
+            else
+            {
+                selectorSquare.Fill = Brushes.White;
+            }
         }
 
         private void RedrawBoard()
         {
             Board.Children.Clear();
+            cellWidth = Board.ActualHeight / size;
             DrawBoard();
 
             //Vẽ lại các điểm x, o
@@ -139,7 +168,6 @@ namespace Caro_game
             {
                 return;
             }
-            cellWidth = Board.ActualHeight / size;
             for (int i = 0; i < size; i++)
                 for (int j = 0; j < size; j++)
                 {
@@ -181,22 +209,13 @@ namespace Caro_game
                 int thichness = 5;
                 round.Width = cellWidth - padding;
                 round.Height = cellWidth - padding;
-                round.Fill = System.Windows.Media.Brushes.Red;
+                round.Stroke = System.Windows.Media.Brushes.Red;
+                round.StrokeThickness = thichness;
                 round.HorizontalAlignment = HorizontalAlignment.Center;
                 round.VerticalAlignment = VerticalAlignment.Center;
                 Canvas.SetLeft(round, padding / 2 * (x * 2 + 1) + (x * (cellWidth - padding)));
                 Canvas.SetTop(round, padding / 2 * (y * 2 + 1) + (y * (cellWidth - padding)));
                 Board.Children.Add(round);
-
-                Ellipse round2 = new Ellipse();
-                round2.Width = cellWidth - padding - thichness * 2;
-                round2.Height = cellWidth - padding - thichness * 2;
-                round2.Fill = System.Windows.Media.Brushes.White;
-                round2.HorizontalAlignment = HorizontalAlignment.Center;
-                round2.VerticalAlignment = VerticalAlignment.Center;
-                Canvas.SetLeft(round2, (padding / 2 + thichness) * (x * 2 + 1) + (x * (cellWidth - padding - thichness * 2)));
-                Canvas.SetTop(round2, (padding / 2 + thichness) * (y * 2 + 1) + (y * (cellWidth - padding - thichness * 2)));
-                Board.Children.Add(round2);
             }
         }
 
@@ -395,6 +414,66 @@ namespace Caro_game
             return false;
         }
 
+        private void ControlBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (control == ControlMode.Mouse)
+            {
+                control = ControlMode.Keyboard;
+                ControlBtn.Content = "Control mode: Keyboard";
+            }
+            else
+            {
+                control = ControlMode.Mouse;
+                ControlBtn.Content = "Control mode: Mouse";
+            }
+            RedrawBoard();
+        }
 
+        private void Board_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (control == ControlMode.Mouse)
+            {
+                return;
+            }
+
+            switch (e.Key)
+            {
+                case Key.Up:
+                case Key.W:
+                    if (selectorY > 0)
+                    {
+                        selectorY--;
+                    }
+                    break;
+                case Key.Down:
+                case Key.S:
+                    if (selectorY < size - 1)
+                    {
+                        selectorY++;
+                    }
+                    break;
+                case Key.Left:
+                case Key.A:
+                    if (selectorX > 0)
+                    {
+                        selectorX--;
+                    }
+                    break;
+                case Key.Right:
+                case Key.D:
+                    if (selectorX < size - 1)
+                    {
+                        selectorX++;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            double minValue = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth);
+            double sizeToSet = minValue - boardBorderThickness * 2;
+            seletor.SetValue(Canvas.LeftProperty, sizeToSet / size * selectorX);
+            seletor.SetValue(Canvas.TopProperty, sizeToSet / size * selectorY);
+            RedrawBoard();
+        }
     }
 }
