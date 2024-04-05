@@ -379,7 +379,6 @@ namespace Caro_game
                     num++;
                 else
                     break;
-                    break;
                 n++;
                 m--;
             }
