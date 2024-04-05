@@ -240,15 +240,8 @@ namespace Caro_game
             DrawBoard();
         }
 
-        private void Board_MouseDown(object sender, MouseButtonEventArgs e)
+        private void onCellSelected(int x, int y)
         {
-            Point mousePosition = e.GetPosition(sender as IInputElement);
-            double mouseX = mousePosition.X;
-            double mouseY = mousePosition.Y;
-
-            int x = ((int)mouseX) % ((int)cellWidth) != 0 ? ((int)mouseX) / ((int)cellWidth) : ((int)mouseX) / ((int)cellWidth) + 1;
-            int y = ((int)mouseY) % ((int)cellWidth) != 0 ? ((int)mouseY) / ((int)cellWidth) : ((int)mouseY) / ((int)cellWidth) + 1;
-
             if (boardbool[y, x])
             {
                 return;
@@ -283,6 +276,23 @@ namespace Caro_game
             {
                 playerTurn = Player.PlayerX;
             }
+        }
+
+        private void Board_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (control == ControlMode.Keyboard)
+            {
+                return;
+            }
+
+            Point mousePosition = e.GetPosition(sender as IInputElement);
+            double mouseX = mousePosition.X;
+            double mouseY = mousePosition.Y;
+
+            int x = ((int)mouseX) % ((int)cellWidth) != 0 ? ((int)mouseX) / ((int)cellWidth) : ((int)mouseX) / ((int)cellWidth) + 1;
+            int y = ((int)mouseY) % ((int)cellWidth) != 0 ? ((int)mouseY) / ((int)cellWidth) : ((int)mouseY) / ((int)cellWidth) + 1;
+
+            onCellSelected(x, y);
         }
 
         private bool EndGameCheck(int x, int y, Player player)
@@ -464,6 +474,11 @@ namespace Caro_game
                     if (selectorX < size - 1)
                     {
                         selectorX++;
+                    }
+                    break;
+                case Key.Enter:
+                    {
+                        onCellSelected(selectorX, selectorY);
                     }
                     break;
                 default:
