@@ -39,7 +39,7 @@ namespace Caro_game
     {
         const int STROKE_THICKNESS = 1;
         int size = 12;
-        int numToWin = 3;
+        int numToWin = 5;
         int boardBorderThickness = 3;
 
         BoardCell[,] BoardCellMap = null;
@@ -55,9 +55,9 @@ namespace Caro_game
 
         ControlMode control = ControlMode.Mouse;
 
-        public GamePlayWindow(/*int size*/)
+        public GamePlayWindow(int size)
         {
-            /*this.size = size;*/
+            this.size = size;
             InitializeComponent();
             TopSpace.Loaded += TopSpace_Loaded;
             TopSpace.SizeChanged += TopSpace_SizeChanged;
@@ -223,6 +223,8 @@ namespace Caro_game
         {
             cellLeft = size * size;
             playerTurn = Player.PlayerX;
+            TurnIndicator.Foreground = Brushes.Blue;
+            TurnIndicator.Content = "X";
             cellWidth =  Board.ActualHeight / size;
             boardbool = new bool[size, size];
             BoardCellMap = new BoardCell[size, size];
@@ -240,7 +242,7 @@ namespace Caro_game
             DrawBoard();
         }
 
-        private void onCellSelected(int x, int y)
+        private void OnCellSelected(int x, int y)
         {
             if (boardbool[y, x])
             {
@@ -271,10 +273,14 @@ namespace Caro_game
             if (playerTurn == Player.PlayerX)
             {
                 playerTurn = Player.PlayerO;
+                TurnIndicator.Foreground = Brushes.Red;
+                TurnIndicator.Content = "O";
             }
             else
             {
                 playerTurn = Player.PlayerX;
+                TurnIndicator.Foreground = Brushes.Blue;
+                TurnIndicator.Content = "X";
             }
         }
 
@@ -292,7 +298,7 @@ namespace Caro_game
             int x = ((int)mouseX) % ((int)cellWidth) != 0 ? ((int)mouseX) / ((int)cellWidth) : ((int)mouseX) / ((int)cellWidth) + 1;
             int y = ((int)mouseY) % ((int)cellWidth) != 0 ? ((int)mouseY) / ((int)cellWidth) : ((int)mouseY) / ((int)cellWidth) + 1;
 
-            onCellSelected(x, y);
+            OnCellSelected(x, y);
         }
 
         private bool EndGameCheck(int x, int y, Player player)
@@ -478,7 +484,7 @@ namespace Caro_game
                     break;
                 case Key.Enter:
                     {
-                        onCellSelected(selectorX, selectorY);
+                        OnCellSelected(selectorX, selectorY);
                     }
                     break;
                 default:
@@ -489,6 +495,18 @@ namespace Caro_game
             seletor.SetValue(Canvas.LeftProperty, sizeToSet / size * selectorX);
             seletor.SetValue(Canvas.TopProperty, sizeToSet / size * selectorY);
             RedrawBoard();
+        }
+
+        private void MenuBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MenuWindow menu = new MenuWindow();
+            menu.Show();
+            this.Close();
+        }
+
+        private void RestartBtn_Click(object sender, RoutedEventArgs e)
+        {
+            RestartGame();
         }
     }
 }

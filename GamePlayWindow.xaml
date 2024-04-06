@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="800" MinHeight="350" MinWidth="400"
         SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen" KeyDown="Board_KeyDown">
-    <Grid>
+    <Grid Background="#1fcfab">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid x:Name="TopSpace" Grid.Row="0" Margin="10">
@@ -20,11 +20,15 @@
             </Border>
         </Grid>
         
-        <Grid Grid.Row="1" Height="50" Background="Gray">
+        <Grid Grid.Row="1" Margin="0,10,0,10">
             <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button x:Name="ControlBtn" Focusable="False" MinWidth="150" Margin="0,0,10,0" Click="ControlBtn_Click">Control mode: Mouse</Button>
-                <Button Margin="0,0,10,0">Menu</Button>
-                <Button>Restart</Button>
+                <WrapPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Label FontSize="17" FontWeight="Bold" Foreground="White">Player turn:</Label>
+                    <Label x:Name="TurnIndicator" FontSize="17" FontWeight="Bold" Margin="0,0,10,0"/>
+                </WrapPanel>
+                <Button x:Name="ControlBtn" Style="{StaticResource GamePlayButton}"  Focusable="False" MinWidth="200" Margin="0,0,10,0" Click="ControlBtn_Click">Control mode: Mouse</Button>
+                <Button x:Name="MenuBtn" Style="{StaticResource GamePlayButton}" Margin="0,0,10,0" Click="MenuBtn_Click">Menu</Button>
+                <Button x:Name="RestartBtn" Style="{StaticResource GamePlayButton}" Margin="0,0,10,0" Click="RestartBtn_Click">Restart</Button>
             </WrapPanel>
         </Grid>
     </Grid>
