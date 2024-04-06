@@ -508,5 +508,15 @@ namespace Caro_game
         {
             RestartGame();
         }
+
+        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LoadGameBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

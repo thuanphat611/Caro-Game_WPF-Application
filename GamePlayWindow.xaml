@@ -26,9 +26,11 @@
                     <Label FontSize="17" FontWeight="Bold" Foreground="White">Player turn:</Label>
                     <Label x:Name="TurnIndicator" FontSize="17" FontWeight="Bold" Margin="0,0,10,0"/>
                 </WrapPanel>
-                <Button x:Name="ControlBtn" Style="{StaticResource GamePlayButton}"  Focusable="False" MinWidth="200" Margin="0,0,10,0" Click="ControlBtn_Click">Control mode: Mouse</Button>
+                <Button x:Name="ControlBtn" Style="{StaticResource GamePlayButton}" Focusable="False" MinWidth="200" Margin="0,0,10,0" Click="ControlBtn_Click">Control mode: Mouse</Button>
                 <Button x:Name="MenuBtn" Style="{StaticResource GamePlayButton}" Margin="0,0,10,0" Click="MenuBtn_Click">Menu</Button>
                 <Button x:Name="RestartBtn" Style="{StaticResource GamePlayButton}" Margin="0,0,10,0" Click="RestartBtn_Click">Restart</Button>
+                <Button x:Name="SaveBtn" Style="{StaticResource GamePlayButton}" Margin="0,0,10,0" Click="SaveBtn_Click">Save game</Button>
+                <Button x:Name="LoadGameBtn" Style="{StaticResource GamePlayButton}" Margin="0,0,10,0" Click="LoadGameBtn_Click">Load game</Button>
             </WrapPanel>
         </Grid>
     </Grid>

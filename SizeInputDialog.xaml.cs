@@ -27,6 +27,12 @@ namespace Caro_game
         private void OkayBtn_Click(object sender, RoutedEventArgs e)
         {
             string input = SizeInputBox.Text;
+
+            if (input == null)
+                return;
+            if (input.Length == 0)
+                return;
+
             Regex regex = new Regex(@"^\d+$");
 
             if (!regex.IsMatch(input))
