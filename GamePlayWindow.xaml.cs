@@ -1,4 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.Win32;
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -430,6 +433,61 @@ namespace Caro_game
             return false;
         }
 
+        private string OpenSaveFileDialog()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filter = "Text files (*.txt)|*.txt";
+            saveFileDialog.FilterIndex = 1;
+            saveFileDialog.RestoreDirectory = true;
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                return saveFileDialog.FileName;
+            }
+
+            return null;
+        }
+
+        private void WriteToFile(string filePath)
+        {
+            if (filePath == null)
+                return;
+
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    writer.Write(size);
+                    writer.WriteLine();
+
+                    for (int i = 0; i < size; i++)
+                    {
+                        for (int j = 0; j < size; j++)
+                        {
+                            if (BoardCellMap[i,j].player == Player.PlayerX)
+                                writer.Write("x");
+                            else if (BoardCellMap[i, j].player == Player.PlayerO)
+                                writer.Write("o");
+                            else
+                                writer.Write("-");
+
+
+                            if (j < size - 1)
+                            {
+                                writer.Write(" ");
+                            }
+                        }
+                        writer.WriteLine();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+
         private void ControlBtn_Click(object sender, RoutedEventArgs e)
         {
             if (control == ControlMode.Mouse)
@@ -511,7 +569,8 @@ namespace Caro_game
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            string path = OpenSaveFileDialog();
+            WriteToFile(path);
         }
 
         private void LoadGameBtn_Click(object sender, RoutedEventArgs e)
