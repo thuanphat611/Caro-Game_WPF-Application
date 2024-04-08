@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+    
 namespace Caro_game
 {
     public enum Player
@@ -460,6 +460,16 @@ namespace Caro_game
                 {
                     writer.Write(size);
                     writer.WriteLine();
+                    if (playerTurn == Player.PlayerX)
+                    {
+                        writer.Write("x");
+                        writer.WriteLine();
+                    }
+                    else
+                    {
+                        writer.Write("o");
+                        writer.WriteLine();
+                    }
 
                     for (int i = 0; i < size; i++)
                     {
@@ -486,6 +496,59 @@ namespace Caro_game
             {
                 Console.WriteLine("Error: " + ex.Message);
             }
+        }
+
+        public static GamePlayWindow LoadFile(string filePath)
+        {
+            GamePlayWindow window = null;
+            try
+            {
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    int n = int.Parse(reader.ReadLine());
+                    string turn = Convert.ToString(reader.ReadLine());
+
+                    window = new GamePlayWindow(n);
+                    window.Show();
+
+                    for (int i = 0; i < n; i++)
+                    {
+                        string[] line = reader.ReadLine().Split(' ');
+                        for (int j = 0; j < n; j++)
+                        {
+                            if(Convert.ToString(line[j]) == "x")
+                            {
+                                window.playerTurn = Player.PlayerX;
+                                window.OnCellSelected(j, i);
+                            }
+                            else if(Convert.ToString(line[j]) == "o")
+                            {
+                                window.playerTurn = Player.PlayerO;
+                                window.OnCellSelected(j, i);
+                            }
+                        }
+                    }
+
+                    if (turn == "x")
+                    {
+                        window.playerTurn = Player.PlayerX;
+                        window.TurnIndicator.Content = "X";
+                        window.TurnIndicator.Foreground = Brushes.Blue;
+                    }
+                    else
+                    {
+                        window.playerTurn = Player.PlayerO;
+                        window.TurnIndicator.Content = "O";
+                        window.TurnIndicator.Foreground = Brushes.Red;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading saved game, make sure the file is valid");
+                return null;
+            }
+            return window;
         }
 
         private void ControlBtn_Click(object sender, RoutedEventArgs e)
@@ -575,7 +638,21 @@ namespace Caro_game
 
         private void LoadGameBtn_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Tệp văn bản (*.txt)|*.txt";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+            bool? result = openFileDialog.ShowDialog();
+
+            if (result == true)
+            {
+                string selectedFilePath = openFileDialog.FileName;
+                GamePlayWindow loadedGame = LoadFile(selectedFilePath);
+                if (loadedGame != null)
+                {
+                    this.Close();
+                }
+            }
         }
     }
 }

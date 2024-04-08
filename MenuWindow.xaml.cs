@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,7 +38,21 @@ namespace Caro_game
 
         private void LoadBtn_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Tệp văn bản (*.txt)|*.txt";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+            bool? result = openFileDialog.ShowDialog();
+
+            if (result == true)
+            {
+                string selectedFilePath = openFileDialog.FileName;
+                GamePlayWindow loadedGame = GamePlayWindow.LoadFile(selectedFilePath);
+                if (loadedGame != null)
+                {
+                    this.Close();
+                }
+            }
         }
 
         private void PlayBtn_Click(object sender, RoutedEventArgs e)
