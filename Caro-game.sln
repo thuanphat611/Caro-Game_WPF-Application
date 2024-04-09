@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caro-game", "Caro-game.csproj", "{A28F9779-FDA6-48D4-8587-FDC0A0606F43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Caro-game", "Caro-game.csproj", "{A28F9779-FDA6-48D4-8587-FDC0A0606F43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -22,13 +22,20 @@ namespace Caro_game
     {
         public static class GlobalVariables
         {
-            public static bool SoundOn { get; set; }
+            public static bool SoundOn { get; set; } = true;
         }
 
         public MenuWindow()
         {
             InitializeComponent();
-            GlobalVariables.SoundOn = true;
+            if (GlobalVariables.SoundOn)
+            {
+                SoundBtn.Content = "Sound: On";
+            }
+            else
+            {
+                SoundBtn.Content = "Sound: Off";
+            }
         }
 
         private void ExitBtn_Click(object sender, RoutedEventArgs e)

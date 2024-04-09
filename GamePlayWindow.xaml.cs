@@ -58,6 +58,8 @@ namespace Caro_game
 
         ControlMode control = ControlMode.Mouse;
 
+        SoundManager soundManager= new SoundManager();
+
         public GamePlayWindow(int size)
         {
             this.size = size;
@@ -289,6 +291,7 @@ namespace Caro_game
 
         private void Board_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            soundManager.PlayClickSound();
             if (control == ControlMode.Keyboard)
             {
                 return;
@@ -302,6 +305,58 @@ namespace Caro_game
             int y = ((int)mouseY) % ((int)cellWidth) != 0 ? ((int)mouseY) / ((int)cellWidth) : ((int)mouseY) / ((int)cellWidth) + 1;
 
             OnCellSelected(x, y);
+        }
+
+        private void Board_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (control == ControlMode.Mouse)
+            {
+                return;
+            }
+
+            switch (e.Key)
+            {
+                case Key.Up:
+                case Key.W:
+                    if (selectorY > 0)
+                    {
+                        selectorY--;
+                    }
+                    break;
+                case Key.Down:
+                case Key.S:
+                    if (selectorY < size - 1)
+                    {
+                        selectorY++;
+                    }
+                    break;
+                case Key.Left:
+                case Key.A:
+                    if (selectorX > 0)
+                    {
+                        selectorX--;
+                    }
+                    break;
+                case Key.Right:
+                case Key.D:
+                    if (selectorX < size - 1)
+                    {
+                        selectorX++;
+                    }
+                    break;
+                case Key.Enter:
+                    {
+                        OnCellSelected(selectorX, selectorY);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            double minValue = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth);
+            double sizeToSet = minValue - boardBorderThickness * 2;
+            seletor.SetValue(Canvas.LeftProperty, sizeToSet / size * selectorX);
+            seletor.SetValue(Canvas.TopProperty, sizeToSet / size * selectorY);
+            RedrawBoard();
         }
 
         private bool EndGameCheck(int x, int y, Player player)
@@ -566,57 +621,6 @@ namespace Caro_game
             RedrawBoard();
         }
 
-        private void Board_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (control == ControlMode.Mouse)
-            {
-                return;
-            }
-
-            switch (e.Key)
-            {
-                case Key.Up:
-                case Key.W:
-                    if (selectorY > 0)
-                    {
-                        selectorY--;
-                    }
-                    break;
-                case Key.Down:
-                case Key.S:
-                    if (selectorY < size - 1)
-                    {
-                        selectorY++;
-                    }
-                    break;
-                case Key.Left:
-                case Key.A:
-                    if (selectorX > 0)
-                    {
-                        selectorX--;
-                    }
-                    break;
-                case Key.Right:
-                case Key.D:
-                    if (selectorX < size - 1)
-                    {
-                        selectorX++;
-                    }
-                    break;
-                case Key.Enter:
-                    {
-                        OnCellSelected(selectorX, selectorY);
-                    }
-                    break;
-                default:
-                    break;
-            }
-            double minValue = Math.Min(TopSpace.ActualHeight, TopSpace.ActualWidth);
-            double sizeToSet = minValue - boardBorderThickness * 2;
-            seletor.SetValue(Canvas.LeftProperty, sizeToSet / size * selectorX);
-            seletor.SetValue(Canvas.TopProperty, sizeToSet / size * selectorY);
-            RedrawBoard();
-        }
 
         private void MenuBtn_Click(object sender, RoutedEventArgs e)
         {
