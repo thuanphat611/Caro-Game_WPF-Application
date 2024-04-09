@@ -588,7 +588,14 @@ namespace Caro_game
             {
                 using (StreamReader reader = new StreamReader(filePath))
                 {
-                    int n = int.Parse(reader.ReadLine());
+                    string size = reader.ReadLine();
+                    if (!int.TryParse(size, out _))
+                    {
+                        MessageBox.Show("Error loading game, please make sure the file is valid");
+                        return null;
+                    }
+
+                    int n = int.Parse(size);
                     string turn = Convert.ToString(reader.ReadLine());
 
                     window = new GamePlayWindow(n);
