@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\PHAT\OneDrive - VNU-HCMUS\Năm 3\Lập trình Windows\Caro-game\App.xaml
-3-718311536
+41738993454
 
-91780133679
+101306886690
 198-294894759
-GamePlayWindow.xaml;MenuWindow.xaml;SizeInputDialog.xaml;
+GamePlayWindow.xaml;MenuWindow.xaml;MessageWindow.xaml;SizeInputDialog.xaml;
 
-False
+True
 

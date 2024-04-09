@@ -12,16 +12,12 @@ namespace Caro_game
 {
     internal class SoundManager
     {
-        MediaPlayer mediaPlayer;
-        public SoundManager() {
-            mediaPlayer = new MediaPlayer();
-        }
-
-        public void PlayClickSound()
+        public static void PlayClickSound()
         {
             if (!GlobalVariables.SoundOn)
                 return;
 
+            MediaPlayer mediaPlayer = new MediaPlayer();
             string soundFilePath = Path.Combine(Environment.CurrentDirectory, "Sound", "click_sound.wav");
 
             try

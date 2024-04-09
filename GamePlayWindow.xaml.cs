@@ -57,9 +57,6 @@ namespace Caro_game
         SolidColorBrush selectorColor = Brushes.LightGray;
 
         ControlMode control = ControlMode.Mouse;
-
-        SoundManager soundManager= new SoundManager();
-
         public GamePlayWindow(int size)
         {
             this.size = size;
@@ -249,6 +246,7 @@ namespace Caro_game
 
         private void OnCellSelected(int x, int y)
         {
+            SoundManager.PlayClickSound();
             if (boardbool[y, x])
             {
                 return;
@@ -270,7 +268,8 @@ namespace Caro_game
 
             if (cellLeft == 0)
             {
-                MessageBox.Show("Kết quả Hòa", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageWindow msg = new MessageWindow("Kết quả Hòa");
+                msg.Show();
                 RestartGame();
                 return;
             }
@@ -291,7 +290,6 @@ namespace Caro_game
 
         private void Board_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            soundManager.PlayClickSound();
             if (control == ControlMode.Keyboard)
             {
                 return;
@@ -382,9 +380,15 @@ namespace Caro_game
             if (num == numToWin)
             {
                 if (player == Player.PlayerX)
-                    MessageBox.Show("Kết thúc game: X thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+                {
+                    MessageWindow msg = new MessageWindow("Kết thúc game: X thắng");
+                    msg.Show();
+                }
                 else
-                    MessageBox.Show("Kết thúc game: O thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+                {
+                    MessageWindow msg = new MessageWindow("Kết thúc game: O thắng");
+                    msg.Show();
+                }
 
                 return true;
             }
@@ -408,9 +412,15 @@ namespace Caro_game
             if (num == numToWin)
             {
                 if (player == Player.PlayerX)
-                    MessageBox.Show("Kết thúc game: X thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+                {
+                    MessageWindow msg = new MessageWindow("Kết thúc game: X thắng");
+                    msg.Show();
+                }
                 else
-                    MessageBox.Show("Kết thúc game: O thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+                {
+                    MessageWindow msg = new MessageWindow("Kết thúc game: O thắng");
+                    msg.Show();
+                }
 
                 return true;
             }
@@ -444,9 +454,15 @@ namespace Caro_game
             if (num == numToWin)
             {
                 if (player == Player.PlayerX)
-                    MessageBox.Show("Kết thúc game: X thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+                {
+                    MessageWindow msg = new MessageWindow("Kết thúc game: X thắng");
+                    msg.Show();
+                }
                 else
-                    MessageBox.Show("Kết thúc game: O thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+                {
+                    MessageWindow msg = new MessageWindow("Kết thúc game: O thắng");
+                    msg.Show();
+                }
 
                 return true;
             }
@@ -478,9 +494,15 @@ namespace Caro_game
             if (num == numToWin)
             {
                 if (player == Player.PlayerX)
-                    MessageBox.Show("Kết thúc game: X thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+                {
+                    MessageWindow msg = new MessageWindow("Kết thúc game: X thắng");
+                    msg.Show();
+                }
                 else
-                    MessageBox.Show("Kết thúc game: O thắng", "info", MessageBoxButton.OK, MessageBoxImage.Information);
+                {
+                    MessageWindow msg = new MessageWindow("Kết thúc game: O thắng");
+                    msg.Show();
+                }
 
                 return true;
             }
