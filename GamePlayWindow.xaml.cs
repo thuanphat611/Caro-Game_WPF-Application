@@ -57,12 +57,16 @@ namespace Caro_game
         SolidColorBrush selectorColor = Brushes.LightGray;
 
         ControlMode control = ControlMode.Mouse;
+        BackgroundMusic bm;
         public GamePlayWindow(int size)
         {
             this.size = size;
             InitializeComponent();
             TopSpace.Loaded += TopSpace_Loaded;
             TopSpace.SizeChanged += TopSpace_SizeChanged;
+
+            bm = new BackgroundMusic();
+            bm.Play();
         }
 
         private void TopSpace_Loaded(object sender, RoutedEventArgs e)
@@ -231,6 +235,7 @@ namespace Caro_game
             boardbool = new bool[size, size];
             BoardCellMap = new BoardCell[size, size];
 
+
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
@@ -246,7 +251,6 @@ namespace Caro_game
 
         private void OnCellSelected(int x, int y)
         {
-            SoundManager.PlayClickSound();
             if (boardbool[y, x])
             {
                 return;
@@ -302,6 +306,7 @@ namespace Caro_game
             int x = ((int)mouseX) % ((int)cellWidth) != 0 ? ((int)mouseX) / ((int)cellWidth) : ((int)mouseX) / ((int)cellWidth) + 1;
             int y = ((int)mouseY) % ((int)cellWidth) != 0 ? ((int)mouseY) / ((int)cellWidth) : ((int)mouseY) / ((int)cellWidth) + 1;
 
+            SoundManager.PlayClickSound();
             OnCellSelected(x, y);
         }
 
@@ -344,6 +349,7 @@ namespace Caro_game
                     break;
                 case Key.Enter:
                     {
+                        SoundManager.PlayClickSound();
                         OnCellSelected(selectorX, selectorY);
                     }
                     break;
@@ -643,12 +649,11 @@ namespace Caro_game
             RedrawBoard();
         }
 
-
         private void MenuBtn_Click(object sender, RoutedEventArgs e)
         {
             MenuWindow menu = new MenuWindow();
             menu.Show();
-            this.Close();
+            CloseThis();
         }
 
         private void RestartBtn_Click(object sender, RoutedEventArgs e)
@@ -676,9 +681,15 @@ namespace Caro_game
                 GamePlayWindow loadedGame = LoadFile(selectedFilePath);
                 if (loadedGame != null)
                 {
-                    this.Close();
+                    CloseThis();
                 }
             }
+        }
+
+        private void CloseThis()
+        {
+            bm.Stop();
+            this.Close();
         }
     }
 }

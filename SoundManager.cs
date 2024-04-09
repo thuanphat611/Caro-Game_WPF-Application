@@ -20,22 +20,93 @@ namespace Caro_game
             MediaPlayer mediaPlayer = new MediaPlayer();
             string soundFilePath = Path.Combine(Environment.CurrentDirectory, "Sound", "click_sound.wav");
 
+            if (!File.Exists(soundFilePath))
+            {
+                return;
+            }
+
             try
             {
-                if (File.Exists(soundFilePath))
-                {
-                    mediaPlayer.Open(new Uri(soundFilePath, UriKind.RelativeOrAbsolute));
-                    mediaPlayer.Play();
-                }
-                else
-                {
-                    MessageBox.Show("Sound not found: " + soundFilePath);
-                }
+                mediaPlayer.Open(new Uri(soundFilePath, UriKind.RelativeOrAbsolute));
+                mediaPlayer.Play();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi phát âm thanh: " + ex.Message);
+                MessageBox.Show("Error playing sound: " + ex.Message);
             }
+        }
+
+        public static void PlayVictorySound()
+        {
+            if (!GlobalVariables.SoundOn)
+                return;
+
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            string soundFilePath = Path.Combine(Environment.CurrentDirectory, "Sound", "endgame.mp3");
+
+            if (!File.Exists(soundFilePath))
+            {
+                return;
+            }
+
+            try
+            {
+                mediaPlayer.Open(new Uri(soundFilePath, UriKind.RelativeOrAbsolute));
+                mediaPlayer.Play();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error playing sound: " + ex.Message);
+            }
+        }
+
+    }
+
+    public class BackgroundMusic
+    {
+        MediaPlayer mediaPlayer;
+        bool canPlay = true;
+        string soundFilePath = Path.Combine(Environment.CurrentDirectory, "Sound", "background_music.mp3");
+
+        public BackgroundMusic()
+        {
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
+
+            if (!File.Exists(soundFilePath))
+            {
+                canPlay = false;
+            }
+            else
+            {
+                mediaPlayer.Open(new Uri(soundFilePath, UriKind.RelativeOrAbsolute));
+            }
+        }
+
+        public void Play()
+        {
+            if (!GlobalVariables.SoundOn || !canPlay)
+                return;
+
+            try
+            {
+                mediaPlayer.Play();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error playing sound: " + ex.Message);
+            }
+        }
+
+        public void Stop()
+        {
+            mediaPlayer?.Stop();
+        }
+
+        private void MediaPlayer_MediaEnded(object sender, EventArgs e)
+        {
+            mediaPlayer.Position = TimeSpan.Zero;
+            mediaPlayer.Play();
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Caro_game
         {
             InitializeComponent();
             messageText.Text = message;
+            SoundManager.PlayVictorySound();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
